@@ -62,7 +62,7 @@ userSchema.methods.generateAccessToken = function () {
 
 userSchema.methods.sendEmailConfirmation = async function () {
     var mailOptions = {
-        from: '"Freedgy" <area.dev@outlook.com>',
+        from: '"Flutter" <area.dev@outlook.com>',
         to: this.email,
         subject: 'Account confirmation',
         // text: process.env.HOST + "/user/confirmation/" + Encryption.Encrypt(this._id.toString(), process.env.KE_TOKEN_VERIFICATION)
@@ -73,7 +73,7 @@ userSchema.methods.sendEmailConfirmation = async function () {
 
 userSchema.methods.sendEmailReset = async function (uuid) {
     var mailOptions = {
-        from: '"Freedgy" <area.dev@outlook.com>',
+        from: '"Flutter" <area.dev@outlook.com>',
         to: this.email,
         subject: 'Reset password',
         text: process.env.HOST + "/user/reset/" + uuid // need to be hash // could use uuid ?
