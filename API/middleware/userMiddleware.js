@@ -1,12 +1,14 @@
 const { check } = require('express-validator')
 
 module.exports.registerValidation = [
+    check('email').notEmpty(),
     check('email').isEmail(),
-    check('name').notEmpty() ,
-    check('last_name').notEmpty(),
+    check('pseudo').notEmpty(),
     check('password').notEmpty()
 ]
 
-module.exports.resetValidation = [
+module.exports.loginValidation = [
+    check('email').notEmpty(),
+    check('email').isEmail(),
     check('password').notEmpty()
 ]
