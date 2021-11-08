@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +14,32 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  // Future<http.Response> postLogin() {
+  //   return http.post(
+  //     Uri.parse('http://localhost:8080/user/login'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'email': title,
+  //       'password': password
+  //     }),
+  //   );
+  // }
+  // Future<http.Response> postRegister() {
+  //   return http.post(
+  //     Uri.parse('http://localhost:8080/user/login'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'email': title,
+  //       "name": name,
+  //       "last_name": last_name,
+  //       "password": password
+  //     }),
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
               ),
               onPressed: () async {
+                // fetchAlbum()
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
               },
               child: const Text("Connexion", style: TextStyle(color: Colors.white),),
