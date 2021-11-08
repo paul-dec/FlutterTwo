@@ -12,3 +12,8 @@ module.exports.loginValidation = [
     check('email').isEmail(),
     check('password').notEmpty()
 ]
+
+module.exports.addNFTValidation = [
+    check('id').notEmpty(),
+    check('url').notEmpty()
+]

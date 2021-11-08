@@ -26,3 +26,22 @@ exports.loginUser = async function (req, res) {
         message: user
     })
 }
+
+exports.addNFT = async function (req, res) {
+    if (!req.body.url.startsWith("https://lh3.googleusercontent.com/")) {
+        return res.status(400).json({ message: "Wrong url" })
+    }
+    const user = await User.findById(req.body.id)
+    if (!user)
+        return res.status(400).json({ message: "No user with this id" })
+    try {
+        await user.NFTs.push(req.body.url);
+        await user.save()
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
+    user.password = "hidden"
+    return res.status(200).json({
+        message: user
+    })
+}
