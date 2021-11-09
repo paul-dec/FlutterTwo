@@ -23,9 +23,9 @@ class _LoginPageState extends State<LoginPage> {
       var content = json.decode(response.body);
       var _pseudo = content['message']['pseudo'].toString();
       var _email = content['message']['email'].toString();
-      var _nft = content['message']['NFTs'].toString();
+      var _id = content['message']['_id'].toString();
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(pseudo: _pseudo, email: _email, nft: _nft,)));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(pseudo: _pseudo, email: _email, id: _id,)));
     } else {
       // print error;
     }
