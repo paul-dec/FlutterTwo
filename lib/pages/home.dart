@@ -5,7 +5,11 @@ import 'package:fluttertwo/widgets/cards.dart';
 import 'package:fluttertwo/pages/shimmer_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String pseudo;
+  final String email;
+  final String nft;
+
+  const HomePage({Key? key, required this.pseudo, required this.email, required this.nft}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();

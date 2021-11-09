@@ -21,11 +21,11 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(Uri.parse(apiUrl), body: {'email': emailController.text, 'password' : passwordController.text});
     if (response.statusCode == 200) {
       var content = json.decode(response.body);
-      var _pseudo = content['message']['pseudo'];
-      var _email = content['message']['email'];
-      var _nft = content['message']['NFTs'];
+      var _pseudo = content['message']['pseudo'].toString();
+      var _email = content['message']['email'].toString();
+      var _nft = content['message']['NFTs'].toString();
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(pseudo: _pseudo, email: _email, nft: _nft,)));
     } else {
       // print error;
     }
