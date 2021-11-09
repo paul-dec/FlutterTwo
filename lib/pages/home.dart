@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:fluttertwo/widgets/cards.dart';
 import 'package:fluttertwo/pages/shimmer_widget.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -37,10 +36,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildNftShimmer() => ListTile(
     leading: ShimmerWidget.circuler(
-        width: 150,
-        height: 150,
+      width: 150,
+      height: 150,
       shapeBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15)
+          borderRadius: BorderRadius.circular(15)
       ),
     ),
   );
