@@ -7,6 +7,8 @@ module.exports = function (app) {
         .post(userMiddleware.loginValidation, validateMiddleware.validate, controllers.loginUser)
     app.route('/user/register')
         .post(userMiddleware.registerValidation, validateMiddleware.validate, controllers.registerUser)
+    app.route('/user/getNFTs')
+        .get(userMiddleware.getNFTsValidation, validateMiddleware.validate, controllers.getNFTs)
     app.route('/user/addNFT')
         .post(userMiddleware.addNFTValidation, validateMiddleware.validate, controllers.addNFT)
 }

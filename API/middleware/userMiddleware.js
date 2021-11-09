@@ -13,7 +13,13 @@ module.exports.loginValidation = [
     check('password').notEmpty()
 ]
 
+module.exports.getNFTsValidation = [
+    check('id').notEmpty()
+]
+
 module.exports.addNFTValidation = [
     check('id').notEmpty(),
-    check('url').notEmpty()
+    check('url').notEmpty(),
+    check('name').notEmpty(),
+    check('description').notEmpty()
 ]

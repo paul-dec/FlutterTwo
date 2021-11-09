@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
         max: 255,
         required: true
     },
-    NFTs: [String],
+    NFTs: [{
+        url: String,
+        name: String,
+        description: String
+    }]
 },{
     timestamps: true
 });
