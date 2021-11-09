@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,32 +15,22 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // Future<http.Response> postLogin() {
-  //   return http.post(
-  //     Uri.parse('http://localhost:8080/user/login'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'email': title,
-  //       'password': password
-  //     }),
-  //   );
-  // }
-  // Future<http.Response> postRegister() {
-  //   return http.post(
-  //     Uri.parse('http://localhost:8080/user/login'),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'email': title,
-  //       "name": name,
-  //       "last_name": last_name,
-  //       "password": password
-  //     }),
-  //   );
-  // }
+  Future<void> postLogin() async {
+    const String apiUrl = "http://localhost:8080/user/login";
+
+    var response = await http.post(Uri.parse(apiUrl), body: {'email': emailController.text, 'password' : passwordController.text});
+    if (response.statusCode == 200) {
+      var content = json.decode(response.body);
+      var _pseudo = content['message']['pseudo'].toString();
+      var _email = content['message']['email'].toString();
+      var _nft = content['message']['NFTs'].toString();
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(pseudo: _pseudo, email: _email, nft: _nft,)));
+    } else {
+      // print error;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,24 +72,26 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   filled: true,
                   fillColor: Color(0xFFDCDCDC),
-                  hintText: 'Your password'
-              ),
+                  hintText: 'Your password'),
             ),
             TextButton(
               style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(50, 10, 50, 10)),
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.fromLTRB(50, 10, 50, 10)),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                      )
-                  )
-              ),
+                    borderRadius: BorderRadius.circular(20),
+                  ))),
               onPressed: () async {
                 // fetchAlbum()
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                postLogin();
               },
-              child: const Text("Connexion", style: TextStyle(color: Colors.white),),
+              child: const Text(
+                "Connexion",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
