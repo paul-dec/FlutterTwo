@@ -3,30 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'home.dart';
-import 'register.dart';
+import 'login.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
+  final pseudoController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> postLogin() async {
-    const String apiUrl = "http://localhost:8080/user/login";
+  Future<void> postRegister() async {
+    const String apiUrl = "http://localhost:8080/user/register";
 
-    var response = await http.post(Uri.parse(apiUrl), body: {'email': emailController.text, 'password' : passwordController.text});
+    var response = await http.post(Uri.parse(apiUrl), body: {'email': emailController.text, 'pseudo': pseudoController.text, 'password' : passwordController.text});
     if (response.statusCode == 200) {
       var content = json.decode(response.body);
-      var _pseudo = content['message']['pseudo'].toString();
-      var _email = content['message']['email'].toString();
-      var _id = content['message']['_id'].toString();
-
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(pseudo: _pseudo, email: _email, id: _id,)));
+      print(content)
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
     } else {
       // print error;
     }
@@ -36,12 +34,29 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Register"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextField(
+              autocorrect: false,
+              enableSuggestions: false,
+              keyboardType: TextInputType.text,
+              controller: pseudoController,
+              decoration: const InputDecoration(
+                contentPadding: EdgeInsets.all(8),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                filled: true,
+                fillColor: Color(0xFFDCDCDC),
+                hintText: 'Your pseudo',
+              ),
+            ),
             TextField(
               autocorrect: false,
               enableSuggestions: false,
@@ -88,14 +103,13 @@ class _LoginPageState extends State<LoginPage> {
                   ))),
               onPressed: () async {
                 // fetchAlbum()
-                postLogin();
+                postRegister();
               },
               child: const Text(
-                "Sign In",
+                "Register",
                 style: TextStyle(color: Colors.white),
               ),
-            ),
-            TextButton(
+            ),TextButton(
               style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.fromLTRB(50, 10, 50, 10)),
@@ -106,10 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20),
                       ))),
               onPressed: () async {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
               },
               child: const Text(
-                "Register",
+                "Sign In",
                 style: TextStyle(color: Colors.white),
               ),
             ),
