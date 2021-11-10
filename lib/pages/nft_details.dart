@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertwo/styles.dart';
 
 class NFTDetails extends StatefulWidget {
   final String url;
@@ -23,14 +24,32 @@ class _NFTDetailsState extends State<NFTDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("NFT " + name),
-        ),
-        body: Column(
-          children: [
-            Text(description),
-          ],
+      backgroundColor: ThemeColor.xBlue,
+      appBar: AppBar(
+        title: Text("NFT " + name, style: ThemeText.whiteTextBold,),
+        backgroundColor: ThemeColor.xPurple,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                child: Hero(
+                  tag: name,
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              Text(description, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
+            ],
+          ),
         )
+      )
     );
   }
 }

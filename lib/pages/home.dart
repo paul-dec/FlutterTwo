@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertwo/class/list_nft.dart';
 import 'package:fluttertwo/pages/settings.dart';
+import 'package:fluttertwo/styles.dart';
 import 'package:fluttertwo/widgets/cards.dart';
-import 'package:fluttertwo/pages/shimmer_widget.dart';
+import 'package:fluttertwo/widgets/shimmer_widget.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -28,32 +27,60 @@ class _HomePageState extends State<HomePage> {
 
   _HomePageState({required this.pseudo, required this.email, required this.id});
 
-  late Future<AllNFT> _allNFTs;
+  late Future<AllNFT?> _allNFTs;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   Future sleepCustom() {
-    return new Future.delayed(const Duration(seconds: 2), () => "2");
+    return Future.delayed(const Duration(seconds: 2), () => "2");
   }
 
-  Future<AllNFT> initNFTs(id) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:8080/user/getNFTs'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "id": id,
-      }),
-    );
+  Future<AllNFT?> initNFTs(id) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/user/getNFTs'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "id": id,
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      print(response.body);
-      AllNFT tmp = AllNFT.fromJson(jsonDecode(response.body)['message']);
-      await sleepCustom();
-      return tmp;
-    } else {
-      print(response.statusCode);
-      print(response.body);
-      throw Exception('Failed to get NFTs.');
+      if (response.statusCode == 200) {
+        AllNFT tmp = AllNFT.fromJson(jsonDecode(response.body)['message']);
+        await sleepCustom();
+        return tmp;
+      } else {
+        throw Exception('Failed to get NFTs.');
+      }
+    } catch(e) {
+      return null;
+    }
+  }
+
+  Future<void> refreshNFTs() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/user/getNFTs'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "id": id,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        AllNFT tmp = AllNFT.fromJson(jsonDecode(response.body)['message']);
+        await sleepCustom();
+        setState(() {
+          _allNFTs = tmp as Future<AllNFT?>;
+        });
+      } else {
+        throw Exception('Failed to get NFTs.');
+      }
+    } catch(e) {
+      return null;
     }
   }
 
@@ -66,8 +93,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColor.xBlue,
       appBar: AppBar(
-        title: const Text("NFT Wallet"),
+        backgroundColor: ThemeColor.xPurple,
+        title: const Text("NFT Wallet", style: ThemeText.whiteTextBold,),
         actions: [
           IconButton(
               icon: const Icon(Icons.settings_outlined),
@@ -75,34 +104,42 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder<AllNFT>(
+      body: FutureBuilder<AllNFT?>(
         future: _allNFTs,
-        builder: (BuildContext context, AsyncSnapshot<AllNFT> snapshot) {
-          Widget child;
-          if (snapshot.hasData) {
-            child = GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(snapshot.data!.all.length, (index) {
-                return Center(
-                    child: NFTCard(url: snapshot.data!.all[index].url, name: snapshot.data!.all[index].name, description: snapshot.data!.all[index].description,)
+        builder: (BuildContext context, AsyncSnapshot<AllNFT?> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              {
+                return GridView.count(
+                  crossAxisCount: 2,
+                  children: List.generate(9, (index) {
+                    return (buildNftShimmer());
+                  }),
                 );
-              })
-            );
-          } else {
-            child = GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(9, (index) {
-                return (buildNftShimmer());
-              }),
-            );
+              }
+            case ConnectionState.done:
+              {
+                return RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    onRefresh: refreshNFTs,
+                    child: GridView.count(
+                        crossAxisCount: 2,
+                        children: List.generate(snapshot.data!.all.length, (index) {
+                          return Center(
+                              child: NFTCard(url: snapshot.data!.all[index].url, name: snapshot.data!.all[index].name, description: snapshot.data!.all[index].description,)
+                          );
+                        })
+                    ));
+              }
           }
-          return child;
         }
     ));
   }
 
   Widget buildNftShimmer() => Padding(
-    padding: EdgeInsets.all(10),
+    padding: const EdgeInsets.all(10),
     child: ShimmerWidget.circular(
       width: 10,
       height: 10,

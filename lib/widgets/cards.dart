@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertwo/pages/nft_details.dart';
-import 'package:shimmer/shimmer.dart';
 
 class NFTCard extends StatelessWidget {
 
@@ -19,14 +18,17 @@ class NFTCard extends StatelessWidget {
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         margin: const EdgeInsets.all(10),
-        color: Theme.of(context).primaryColor,
+        color: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        child: Image.network(
-          url,
-          fit: BoxFit.fill,
-        ),
+        child: Hero(
+          tag: name,
+          child: Image.network(
+            url,
+            fit: BoxFit.fill,
+          ),
+        )
       ),
     );
   }
