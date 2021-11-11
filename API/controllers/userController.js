@@ -29,7 +29,12 @@ exports.loginUser = async function (req, res) {
 }
 
 exports.getNFTs = async function (req, res) {
-    const user = await User.findById(req.body.id)
+    var user;
+    try {
+        user = await User.findById(req.body.id)
+    } catch (error) {
+        return res.status(500).json({ message: "No account with this id" })
+    }
     user.password = "hidden"
     return res.status(200).json({
         message: user
