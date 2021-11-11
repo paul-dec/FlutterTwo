@@ -6,7 +6,9 @@ import 'package:fluttertwo/functions/build_shimmer.dart';
 import 'package:fluttertwo/functions/nft_api.dart';
 import 'package:fluttertwo/pages/settings.dart';
 import 'package:fluttertwo/styles.dart';
-import 'package:fluttertwo/widgets/cards.dart';
+import 'package:nft_card/nft_card.dart';
+
+import 'nft_details.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -76,7 +78,11 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 2,
                   children: List.generate(snapshot.data!.all.length, (index) {
                     return Center(
-                      child: NFTCard(url: snapshot.data!.all[index].url, name: snapshot.data!.all[index].name, description: snapshot.data!.all[index].description,)
+                      child: NFTCard(
+                        url: snapshot.data!.all[index].url,
+                        name: snapshot.data!.all[index].name,
+                        description: snapshot.data!.all[index].description,
+                        function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NFTDetails(url: snapshot.data!.all[index].url, name: snapshot.data!.all[index].name, description: snapshot.data!.all[index].description,))),)
                     );
                   })
                 )

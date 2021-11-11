@@ -14,6 +14,8 @@ dependencies:
   http: ^0.13.4
   cupertino_icons: ^1.0.2
   shimmer: ^2.0.0
+  nft_card:
+    path: "nft_card"
 
 dev_dependencies:
   flutter_test:

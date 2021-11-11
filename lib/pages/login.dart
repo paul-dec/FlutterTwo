@@ -5,8 +5,7 @@ import 'package:fluttertwo/class/user.dart';
 import 'package:fluttertwo/widgets/custom_button.dart';
 import 'package:fluttertwo/widgets/custom_spacer.dart';
 import 'package:fluttertwo/widgets/custom_textfield.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 import '../styles.dart';
 import 'home.dart';
 import 'register.dart';

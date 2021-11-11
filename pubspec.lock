@@ -319,6 +319,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.16"
+  nft_card:
+    dependency: "direct main"
+    description:
+      path: nft_card
+      relative: true
+    source: path
+    version: "0.0.1"
   node_preamble:
     dependency: transitive
     description:
@@ -550,4 +557,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
-  flutter: ">=1.9.1"
+  flutter: ">=1.17.0"
