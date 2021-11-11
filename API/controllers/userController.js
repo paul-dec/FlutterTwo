@@ -35,6 +35,8 @@ exports.getNFTs = async function (req, res) {
     } catch (error) {
         return res.status(500).json({ message: "No account with this id" })
     }
+    if (!user)
+        return res.status(500).json({ message: "No account with this id" })
     user.password = "hidden"
     return res.status(200).json({
         message: user
