@@ -27,7 +27,10 @@ Future<AllNFT?> initNFTs(id) async {
       throw Exception('Failed to get NFTs.');
     }
   } catch(e) {
-    return null;
+    if (e.toString() == 'Exception: Failed to get NFTs.') {
+      throw Exception('Failed to get NFTs.');
+    }
+    throw Exception('Invalid internet connexion or API is down');
   }
 }
 

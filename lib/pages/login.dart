@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertwo/class/auth.dart';
 import 'package:fluttertwo/class/user.dart';
 import 'package:fluttertwo/widgets/custom_button.dart';
 import 'package:fluttertwo/widgets/custom_spacer.dart';
@@ -78,22 +79,18 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<void> postLogin(email, password) async {
-    const String apiUrl = "http://localhost:8080/user/login";
-
     try {
-      var response = await http.post(Uri.parse(apiUrl), body: {'email': email, 'password' : password});
-      if (response.statusCode == 200) {
-        User tmp = User.fromJson(jsonDecode(response.body)['message']);
-
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(user: tmp,)));
-      } else {
+      User? tmp = await getUser(email, password);
+      if (tmp == null) {
         setState(() {
           errorString = "Email or password not valid";
         });
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage(user: tmp,)));
       }
     } catch(e) {
       setState(() {
-        errorString = "Invalid internet connexion";
+        errorString = e.toString().replaceAll('Exception: ', '');
       });
     }
   }
