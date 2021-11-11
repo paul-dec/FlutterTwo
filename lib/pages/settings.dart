@@ -1,26 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertwo/class/user.dart';
 import 'package:fluttertwo/pages/login.dart';
 import 'package:fluttertwo/styles.dart';
+import 'package:fluttertwo/widgets/custom_button.dart';
 
 class SettingsPage extends StatefulWidget {
-  final String pseudo;
-  final String email;
-  final String id;
+  final User user;
 
-  const SettingsPage({Key? key, required this.pseudo, required this.email, required this.id}) : super(key: key);
+  const SettingsPage({Key? key, required this.user}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  State<SettingsPage> createState() => _SettingsPageState(pseudo: pseudo, email: email, id: id);
+  State<SettingsPage> createState() => _SettingsPageState(user: user);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final String pseudo;
-  final String email;
-  final String id;
+  final User user;
 
-  _SettingsPageState({required this.pseudo, required this.email, required this.id});
+  _SettingsPageState({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +26,29 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: ThemeColor.xBlue,
       appBar: AppBar(
         backgroundColor: ThemeColor.xPurple,
-        title: Text("Settings " + pseudo, style: ThemeText.whiteTextBold,),
+        title: Text("Settings " + user.pseudo, style: ThemeText.whiteTextBold,),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(email),
-            TextButton(
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.fromLTRB(50, 10, 50, 10)),
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      )
-                  )
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Column(
+            children: [
+              Text(user.email, style: ThemeText.whiteTextBold,),
+              const Spacer(),
+              CustomButton(
+                buttonColor: ThemeColor.xPurple,
+                textValue: "Logout",
+                textStyle: ThemeText.whiteTextBold,
+                // ignore: void_checks
+                function: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()), (Route<dynamic> route) => false
+                ),
               ),
-              onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginPage()), (Route<dynamic> route) => false,),
-              child: const Text(
-                "Disconnect",
-                style: ThemeText.whiteTextBold,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )
+      ),
     );
   }
 }

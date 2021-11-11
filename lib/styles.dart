@@ -22,7 +22,13 @@ abstract class ThemeText {
 
   static const TextStyle whiteTextItalic = TextStyle(
     color: Colors.white,
-    fontSize: 20,
+    fontSize: 14,
+    fontStyle: FontStyle.italic,
+  );
+
+  static const TextStyle xPurpleTextItalic = TextStyle(
+    color: ThemeColor.xPurple,
+    fontSize: 14,
     fontStyle: FontStyle.italic,
   );
 }
