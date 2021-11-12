@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertwo/BLoC/bloc.dart';
 import 'package:fluttertwo/styles.dart';
 import 'package:fluttertwo/widgets/custom_button.dart';
 import 'package:fluttertwo/widgets/custom_spacer.dart';
@@ -36,25 +37,46 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CustomTextField(
-                myController: pseudoController,
-                myTextInputType: TextInputType.text,
-                myHintText: 'Your pseudo',
-                obscureText: false,
+              StreamBuilder(
+                stream: bloc.name,
+                builder: (context, snapshot) {
+                  return CustomTextField(
+                    myController: pseudoController,
+                    myTextInputType: TextInputType.name,
+                    myHintText: 'Your name',
+                    obscureText: false,
+                    onChangedFunction: bloc.changeName,
+                    errorText: snapshot.error.toString() == 'null' ? '' : snapshot.error.toString(),
+                  );
+                },
               ),
               const CustomSpacer(),
-              CustomTextField(
-                myController: emailController,
-                myTextInputType: TextInputType.emailAddress,
-                myHintText: 'Your email',
-                obscureText: false,
+              StreamBuilder(
+                stream: bloc.email,
+                builder: (context, snapshot) {
+                  return CustomTextField(
+                    myController: emailController,
+                    myTextInputType: TextInputType.emailAddress,
+                    myHintText: 'Your email',
+                    obscureText: false,
+                    onChangedFunction: bloc.changeEmail,
+                    errorText: snapshot.error.toString() == 'null' ? '' : snapshot.error.toString(),
+                  );
+                },
               ),
               const CustomSpacer(),
-              CustomTextField(
-                myController: passwordController,
-                myTextInputType: TextInputType.visiblePassword,
-                myHintText: 'Your password',
-                obscureText: true,
+              StreamBuilder(
+                stream: bloc.password,
+                builder: (context, snapshot) {
+                  return CustomTextField(
+                    myController: passwordController,
+                    myTextInputType: TextInputType.visiblePassword,
+                    myHintText: 'Your name',
+                    obscureText: true,
+                    onChangedFunction: bloc.changePassword,
+                    errorText: snapshot.error.toString() == 'null' ? '' : snapshot.error.toString(),
+                  );
+                },
               ),
               const CustomSpacer(),
               CustomButton(

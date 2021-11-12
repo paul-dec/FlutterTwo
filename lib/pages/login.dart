@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertwo/BLoC/bloc.dart';
 import 'package:fluttertwo/class/auth.dart';
 import 'package:fluttertwo/class/user.dart';
 import 'package:fluttertwo/widgets/custom_button.dart';
@@ -37,18 +38,32 @@ class LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CustomTextField(
-                myController: emailController,
-                myTextInputType: TextInputType.emailAddress,
-                myHintText: 'Your email',
-                obscureText: false,
+              StreamBuilder(
+                stream: bloc.email,
+                builder: (context, snapshot) {
+                  return CustomTextField(
+                    myController: emailController,
+                    myTextInputType: TextInputType.emailAddress,
+                    myHintText: 'Your email',
+                    obscureText: false,
+                    onChangedFunction: bloc.changeEmail,
+                    errorText: snapshot.error.toString() == 'null' ? '' : snapshot.error.toString(),
+                  );
+                },
               ),
               const CustomSpacer(),
-              CustomTextField(
-                myController: passwordController,
-                myTextInputType: TextInputType.visiblePassword,
-                myHintText: 'Your password',
-                obscureText: true,
+              StreamBuilder(
+                stream: bloc.password,
+                builder: (context, snapshot) {
+                  return CustomTextField(
+                    myController: passwordController,
+                    myTextInputType: TextInputType.visiblePassword,
+                    myHintText: 'Your password',
+                    obscureText: true,
+                    onChangedFunction: bloc.changePassword,
+                    errorText: snapshot.error.toString() == 'null' ? '' : snapshot.error.toString(),
+                  );
+                },
               ),
               const CustomSpacer(),
               CustomButton(

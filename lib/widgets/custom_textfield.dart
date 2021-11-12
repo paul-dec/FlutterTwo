@@ -6,12 +6,15 @@ class CustomTextField extends StatelessWidget {
   final TextInputType myTextInputType;
   final String myHintText;
   final bool obscureText;
+  final void Function(String)? onChangedFunction;
+  final String errorText;
 
-  const CustomTextField({Key? key, required this.myController, required this.myTextInputType, required this.myHintText, required this.obscureText}) : super(key: key);
+  const CustomTextField({Key? key, required this.myController, required this.myTextInputType, required this.myHintText, required this.obscureText, required this.onChangedFunction, required this.errorText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChangedFunction,
       autocorrect: false,
       enableSuggestions: false,
       keyboardType: myTextInputType,
@@ -29,6 +32,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.white,
         hintText: myHintText,
+        errorText: errorText
       ),
     );
   }
