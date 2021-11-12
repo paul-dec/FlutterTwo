@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.isPasswordMatching = function (password) {
-    var bytes  = CryptoJS.AES.decrypt(this.password, process.env.KE_PASSWORD);
+    var bytes = CryptoJS.AES.decrypt(this.password, process.env.KE_PASSWORD);
     return bytes.toString(CryptoJS.enc.Utf8) === password
 }
 

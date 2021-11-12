@@ -17,6 +17,11 @@ module.exports.getNFTsValidation = [
     check('id').notEmpty()
 ]
 
+module.exports.getNFTValidation = [
+    check('id').notEmpty(),
+    check('url').notEmpty()
+]
+
 module.exports.addNFTValidation = [
     check('id').notEmpty(),
     check('url').notEmpty(),

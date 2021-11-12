@@ -11,4 +11,6 @@ module.exports = function (app) {
         .post(userMiddleware.getNFTsValidation, validateMiddleware.validate, controllers.getNFTs)
     app.route('/user/addNFT')
         .post(userMiddleware.addNFTValidation, validateMiddleware.validate, controllers.addNFT)
+    app.route('/user/getNFT')
+        .post(userMiddleware.getNFTValidation, validateMiddleware.validate, controllers.getNFT)
 }

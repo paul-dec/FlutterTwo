@@ -66,3 +66,20 @@ exports.addNFT = async function (req, res) {
         message: user
     })
 }
+
+exports.getNFT = async function (req, res) {
+    const user = await User.findById(req.body.id)
+    if (!user)
+        return res.status(400).json({ message: "No user with this id" })
+    for (nft of user.NFTs) {
+        if (nft.url == req.body.url) {
+            return res.status(200).json({
+                name: nft.name,
+                description: nft.description
+            })
+        }
+    }
+    return res.status(200).json({
+        message: "No NFT found with this url"
+    })
+}
