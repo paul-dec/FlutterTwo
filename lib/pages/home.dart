@@ -71,22 +71,28 @@ class _HomePageState extends State<HomePage> {
             }
             case ConnectionState.done:
             {
-              return RefreshIndicator(
-                key: _refreshIndicatorKey,
-                onRefresh: _refresh,
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  children: List.generate(snapshot.data!.all.length, (index) {
-                    return Center(
-                      child: NFTCard(
-                        url: snapshot.data!.all[index].url,
-                        name: snapshot.data!.all[index].name,
-                        description: snapshot.data!.all[index].description,
-                        function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NFTDetails(url: snapshot.data!.all[index].url, name: snapshot.data!.all[index].name, description: snapshot.data!.all[index].description,))),)
-                    );
-                  })
-                )
-              );
+              if (snapshot.hasData) {
+                return RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    onRefresh: _refresh,
+                    child: GridView.count(
+                        crossAxisCount: 2,
+                        children: List.generate(snapshot.data!.all.length, (index) {
+                          return Center(
+                              child: NFTCard(
+                                url: snapshot.data!.all[index].url,
+                                name: snapshot.data!.all[index].name,
+                                description: snapshot.data!.all[index].description,
+                                function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NFTDetails(id: user.id, url: snapshot.data!.all[index].url))),)
+                          );
+                        })
+                    )
+                );
+              } else {
+                return Center(
+                  child: Text(snapshot.error.toString(), style: ThemeText.whiteTextBold),
+                );
+              }
             }
           }
         }

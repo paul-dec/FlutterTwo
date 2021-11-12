@@ -29,3 +29,17 @@ class NFT {
     );
   }
 }
+
+class NFTDesc {
+  final String name;
+  final String description;
+
+  NFTDesc({required this.name, required this.description});
+
+  factory NFTDesc.fromJson(Map<dynamic, dynamic> json) {
+    return NFTDesc(
+        name: json['name'],
+        description: json['description']
+    );
+  }
+}
