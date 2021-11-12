@@ -27,7 +27,7 @@ class Validators {
         if (name.length > 2) {
           sink.add(name);
         } else {
-          sink.addError('Name must be at least 2 characters');
+          sink.addError('Name must be at least 3 characters');
         }
       }
   );
